@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BookClubApp.DAL.Models
 {
-    public class Book
+    public class Book // add encapsulation and validation for all models
     {
         public int Id { get; set; }
         [Required, StringLength(255)]
