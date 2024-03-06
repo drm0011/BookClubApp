@@ -1,5 +1,7 @@
 
 using BookClubApp.DAL;
+using BookClubApp.DAL.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookClubApp
@@ -20,6 +22,7 @@ namespace BookClubApp
             builder.Services.AddDbContext<BookClubAppContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+            builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 
             var app = builder.Build();
 

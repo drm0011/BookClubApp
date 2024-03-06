@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookClubApp", "BookClubApp\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookClubApp.DAL", "BookClubApp.DAL\BookClubApp.DAL.csproj", "{6D152792-CBC0-4F9D-A61A-61D9D80172FD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookClubApp.Services", "BookClubApp.Services\BookClubApp.Services.csproj", "{7A997324-A508-4978-B2A0-7DFD9BBE6814}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{6D152792-CBC0-4F9D-A61A-61D9D80172FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6D152792-CBC0-4F9D-A61A-61D9D80172FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6D152792-CBC0-4F9D-A61A-61D9D80172FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A997324-A508-4978-B2A0-7DFD9BBE6814}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A997324-A508-4978-B2A0-7DFD9BBE6814}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A997324-A508-4978-B2A0-7DFD9BBE6814}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A997324-A508-4978-B2A0-7DFD9BBE6814}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
