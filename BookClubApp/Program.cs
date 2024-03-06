@@ -1,8 +1,12 @@
 
 using BookClubApp.DAL;
 using BookClubApp.DAL.Models;
+using BookClubApp.Services.Interfaces;
+using BookClubApp.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using BookClubApp.DAL.Interfaces;
+using BookClubApp.DAL.Repos;
 
 namespace BookClubApp
 {
@@ -23,6 +27,8 @@ namespace BookClubApp
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+            builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IUserRepository, UserRepository>();  
 
             var app = builder.Build();
 
