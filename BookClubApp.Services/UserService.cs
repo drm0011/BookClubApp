@@ -1,7 +1,5 @@
-﻿using BookClubApp.DAL.Interfaces;
-using BookClubApp.DAL.Models;
-using BookClubApp.Services.Interfaces;
-using BookClubApp.Services.Models;
+﻿using BookClubApp.Core.Interfaces;
+using BookClubApp.Core.Models;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -14,27 +12,27 @@ namespace BookClubApp.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
-        private readonly IPasswordHasher<User> _passwordHasher;
-        public UserService(IUserRepository userRepository, IPasswordHasher<User> passwordHasher)
+        private readonly IPasswordHasherService _passwordHasherService;
+        public UserService(IUserRepository userRepository, IPasswordHasherService passwordHasherService)
         {
             _userRepository = userRepository;
-            _passwordHasher = passwordHasher;
+            _passwordHasherService = passwordHasherService;
         }
 
-        public async Task<bool> RegisterUser(UserRegistrationModel user)
+        public async Task<bool> RegisterUser(UserRegistrationModel userModel)
         {
-            if (await _userRepository.UserExists(user.Username))
+            if (await _userRepository.UserExists(userModel.Username))
             {
                 // Handle the case where user already exists
                 return false;
             }
+            var hashedPassword = _passwordHasherService.HashPassword(userModel.Password);
 
-
-            var newUser = new User
+            var newUser = new Core.Models.User
             {
-                Username = user.Username,
-                Email = user.Email,
-                PasswordHash = _passwordHasher.HashPassword(null, user.Password)
+                Username = userModel.Username,
+                Email = userModel.Email,
+                PasswordHash = hashedPassword
             };
 
             await _userRepository.AddUser(newUser);

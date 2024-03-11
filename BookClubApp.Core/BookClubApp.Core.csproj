@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BookClubApp.Core\BookClubApp.Core.csproj" />
+    <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="8.0.2" />
   </ItemGroup>
 
 </Project>

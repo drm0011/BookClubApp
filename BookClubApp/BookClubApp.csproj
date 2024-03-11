@@ -20,6 +20,7 @@
   <ItemGroup>
     <ProjectReference Include="..\BookClubApp.DAL\BookClubApp.DAL.csproj" />
     <ProjectReference Include="..\BookClubApp.Services\BookClubApp.Services.csproj" />
+	  <ProjectReference Include="..\BookClubApp.Core\BookClubApp.Core.csproj"/>
   </ItemGroup>
 
 </Project>

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BookClubApp.Services.Models
+namespace BookClubApp.Core.Models
 {
     public class UserRegistrationModel
     {

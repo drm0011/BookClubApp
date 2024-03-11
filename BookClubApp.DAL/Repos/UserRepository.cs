@@ -1,4 +1,6 @@
-﻿using BookClubApp.DAL.Interfaces;
+﻿using BookClubApp.Core;
+using BookClubApp.Core.Interfaces;
+using BookClubApp.Core.Models;
 using BookClubApp.DAL.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -16,9 +18,15 @@ namespace BookClubApp.DAL.Repos
         {
             _context= context;
         }
-        public async Task AddUser(User user)
+        public async Task AddUser(Core.Models.User userDomain)
         {
-            _context.Users.Add(user);
+            var userEntity = new DAL.Models.User
+            {
+                Username = userDomain.Username,
+                Email = userDomain.Email,
+                PasswordHash = userDomain.PasswordHash,
+            };
+            _context.Users.Add(userEntity);
             await _context.SaveChangesAsync();
         }
 

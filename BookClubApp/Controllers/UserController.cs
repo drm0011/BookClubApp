@@ -1,6 +1,6 @@
 ﻿using BookClubApp.DTOs;
-using BookClubApp.Services.Interfaces;
-using BookClubApp.Services.Models;
+using BookClubApp.Core.Interfaces;
+using BookClubApp.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookClubApp.Controllers
