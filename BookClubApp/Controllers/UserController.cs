@@ -15,7 +15,7 @@ namespace BookClubApp.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(UserRegistrationDto registrationDto)
+        public async Task<IActionResult> Register([FromBody] UserRegistrationDto registrationDto)
         {
             if (!ModelState.IsValid)
             {
