@@ -9,7 +9,7 @@ namespace BookClubApp.DAL.Models
 {
     public class Review
     {
-        public int Id { get; set; }
+        public int Id { get; init; }
         [Required, StringLength(2000)]
         public string Content {  get; set; }
         [Range(1, 5)]

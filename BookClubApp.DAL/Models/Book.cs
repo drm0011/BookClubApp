@@ -9,7 +9,7 @@ namespace BookClubApp.DAL.Models
 {
     public class Book // add encapsulation and validation for all models
     {
-        public int Id { get; set; }
+        public int Id { get; init; }
         [Required, StringLength(255)]
         public string Name { get; set; }
         [Required, StringLength(255)]
