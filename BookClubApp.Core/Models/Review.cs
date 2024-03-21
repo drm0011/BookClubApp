@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BookClubApp.Core.Models
 {
-    public class Review
+    public class Review //encapsulation, create rating method, update rating method
     {
         public int Id { get; init; }
         public string Content { get; set; }

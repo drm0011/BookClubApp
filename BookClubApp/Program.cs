@@ -39,6 +39,8 @@ namespace BookClubApp
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IPasswordHasher<object>, PasswordHasher<object>>();
 
+            builder.Services.AddHttpClient<IOpenLibraryService, OpenLibraryService>();
+
 
             var app = builder.Build();
 
