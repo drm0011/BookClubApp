@@ -28,12 +28,7 @@ namespace BookClubApp.Services
             }
             var hashedPassword = _passwordHasherService.HashPassword(userModel.Password);
 
-            var newUser = new Core.Models.User  
-            {
-                Username = userModel.Username,
-                Email = userModel.Email
-            };
-
+            var newUser = new Core.Models.User(userModel.Username, userModel.Email);
             newUser.SetPassword(userModel.Password, _passwordHasherService);
 
             await _userRepository.AddUser(newUser);

@@ -32,6 +32,28 @@ namespace BookClubApp.Core.Models
                 _email = value;
             }
         }
+
+        private ReadingList _readingList;
+        public ReadingList ReadingList
+        {
+            get => _readingList;
+            set => _readingList = value ?? throw new ArgumentNullException(nameof(ReadingList), "ReadingList cannot be null.");
+        }
+
+        public User(string username, string email)
+        {
+            Username = username;
+            Email = email;
+            _readingList = new ReadingList(); 
+        }
+        
+        public void AddToReadingList(ReadingListItem item)
+        {
+            if(item==null) throw new ArgumentNullException(nameof(item), "Cannot add null item to reading list.");
+            if (_readingList.Items.Contains(item)) throw new InvalidOperationException("This item is already in the reading list.");
+
+            _readingList.Items.Add(item);
+        }
         public string PasswordHash { get; private set; }
         public void SetPassword(string newPassword, IPasswordHasherService passwordHasherService)
         {
