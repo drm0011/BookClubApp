@@ -1,5 +1,6 @@
 ﻿using BookClubApp.Core.Interfaces;
 using BookClubApp.Core.Models;
+using BookClubApp.Core.DTOs;
 using BookClubApp.Services;
 using Moq;
 using System;

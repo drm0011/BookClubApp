@@ -11,7 +11,7 @@ namespace BookClubApp.Controllers
             _openLibraryService = openLibraryService;
         }
 
-        [HttpGet("GetBooks")]
+        [HttpGet("Books")]
         public async Task<IActionResult> Search(string q)
         {
             if (string.IsNullOrEmpty(q)) return BadRequest("Query is required");

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BookClubApp.Core.Models
+namespace BookClubApp.Core.DTOs
 {
     public class UserRegistrationModel
     {

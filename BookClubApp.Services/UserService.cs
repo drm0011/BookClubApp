@@ -1,5 +1,5 @@
-﻿using BookClubApp.Core.Interfaces;
-using BookClubApp.Core.Models;
+﻿using BookClubApp.Core.DTOs;
+using BookClubApp.Core.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
