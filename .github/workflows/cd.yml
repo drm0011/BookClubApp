@@ -24,4 +24,4 @@ jobs:
       run: docker build -t book-club-app-image .
 
     - name: Push Docker Image
-      run: docker push book-club-app-image
+      run: docker push ${{ secrets.DOCKER_USERNAME }}/book-club-app-image
