@@ -20,7 +20,6 @@ namespace BookClubApp.DAL.Repos
         {
             var entity = await _context.ReadingList
                 .Include(rl => rl.Items)
-                .ThenInclude(ri => ri.Book)
                 .FirstOrDefaultAsync(rl => rl.UserId == userId);
 
             return entity == null ? null : ConvertToDomainModel(entity);
@@ -50,7 +49,9 @@ namespace BookClubApp.DAL.Repos
                 {
                     Id = i.Id,
                     ReadingListId = i.ReadingListId,
-                    BookId = i.BookId
+                    Author=i.Author,
+                    Title=i.Title,
+                    PublishYear=i.PublishYear
                 }).ToList()
             };
         }
@@ -65,7 +66,9 @@ namespace BookClubApp.DAL.Repos
                 {
                     Id = i.Id,
                     ReadingListId = i.ReadingListId,
-                    BookId = i.BookId
+                    Author = i.Author,
+                    Title = i.Title,
+                    PublishYear = i.PublishYear
                 }).ToList()
             };
         }
@@ -76,7 +79,9 @@ namespace BookClubApp.DAL.Repos
             {
                 Id = domainModel.Id,
                 ReadingListId = domainModel.ReadingListId,
-                BookId = domainModel.BookId
+                Author = domainModel.Author,
+                Title = domainModel.Title,
+                PublishYear = domainModel.PublishYear
             };
         }
     }

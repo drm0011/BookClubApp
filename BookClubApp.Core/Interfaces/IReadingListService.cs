@@ -9,6 +9,6 @@ namespace BookClubApp.Core.Interfaces
 {
     public interface IReadingListService
     {
-        Task<bool> AddToReadingList(int userId, int bookId);
+        Task<bool> AddToReadingList(int userId, string title, string author, int publishYear);
     }
 }

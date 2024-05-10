@@ -16,7 +16,7 @@ namespace BookClubApp.Services
         {
             _readingListRepository = readingListRepository;
         }
-        public async Task<bool> AddToReadingList(int userId, int bookId)
+        public async Task<bool> AddToReadingList(int userId, string title, string author, int publishYear)
         {
             // ensure user only has a single readinglist
             var readingList = await _readingListRepository.GetReadingListByUserId(userId);
@@ -26,13 +26,13 @@ namespace BookClubApp.Services
                 await _readingListRepository.CreateReadingList(readingList);
             }
 
-            bool bookExists = readingList.Items.Any(item => item.BookId == bookId);
+            bool bookExists = readingList.Items.Any(item => item.Title == title);
             if (bookExists)
             {
                 return false; 
             }
 
-            var readingListItem = new ReadingListItem { BookId = bookId, ReadingListId = readingList.Id };
+            var readingListItem = new ReadingListItem { Title=title, Author=author, PublishYear=publishYear, ReadingListId = readingList.Id };
             await _readingListRepository.AddReadingListItem(readingListItem);
             return true;
         }

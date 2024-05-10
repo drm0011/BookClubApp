@@ -14,7 +14,7 @@ namespace BookClubApp.Controllers
         [HttpPost("add")]
         public async Task<IActionResult> AddToReadingList([FromBody] AddToReadingListDto dto)
         {
-            var result = await _readingListService.AddToReadingList(dto.UserId, dto.BookId);
+            var result = await _readingListService.AddToReadingList(dto.UserId, dto.Title, dto.Author, dto.PublishYear);
             if (result)
             {
                 return Ok();
