@@ -1,7 +1,8 @@
 ﻿using BookClubApp.Core.Interfaces;
+using BookClubApp.Core.Models;
 using BookClubApp.DAL.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,6 +17,7 @@ namespace BookClubApp.DAL.Repos
             _context = context;
         }
 
+        //add errorhandling 
         public async Task<Core.Models.ReadingList> GetReadingListByUserId(int userId)
         {
             var entity = await _context.ReadingList
@@ -35,8 +37,45 @@ namespace BookClubApp.DAL.Repos
         public async Task AddReadingListItem(Core.Models.ReadingListItem readingListItem)
         {
             var entity = ConvertToEntity(readingListItem);
-            _context.ReadingListItem.Add(entity);
+            _context.ReadingListItems.Add(entity);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<Core.Models.ReadingListItem>> GetReadingListItems(int userId)
+        {
+            var entities = await _context.ReadingListItems
+                .Where(item => item.ReadingList.UserId == userId)
+                .ToListAsync();
+
+            return entities.Select(e => ConvertToDomainModel(e)).ToList();
+        }
+
+        public async Task<Core.Models.ReadingListItem> GetReadingListItem(int id)
+        {
+            var entity = await _context.ReadingListItems.FindAsync(id);
+            return entity == null ? null : ConvertToDomainModel(entity);
+        }
+
+        public async Task DeleteReadingListItem(Core.Models.ReadingListItem readingListItem)
+        {
+            var existingItem = await _context.ReadingListItems.FindAsync(readingListItem.Id);
+            if (existingItem != null)
+            {
+                _context.ReadingListItems.Remove(existingItem);
+                await _context.SaveChangesAsync();
+            }
+        }
+        public async Task UpdateReadingListItem(Core.Models.ReadingListItem readingListItem)
+        {
+            var existingItem = await _context.ReadingListItems.FindAsync(readingListItem.Id);
+            if (existingItem != null)
+            {
+                existingItem.Title = readingListItem.Title;
+                existingItem.Author = readingListItem.Author;
+                existingItem.PublishYear = readingListItem.PublishYear;
+                _context.ReadingListItems.Update(existingItem);
+                await _context.SaveChangesAsync();
+            }
         }
 
         private Core.Models.ReadingList ConvertToDomainModel(DAL.Models.ReadingList entity)
@@ -49,9 +88,9 @@ namespace BookClubApp.DAL.Repos
                 {
                     Id = i.Id,
                     ReadingListId = i.ReadingListId,
-                    Author=i.Author,
-                    Title=i.Title,
-                    PublishYear=i.PublishYear
+                    Author = i.Author,
+                    Title = i.Title,
+                    PublishYear = i.PublishYear
                 }).ToList()
             };
         }
@@ -70,6 +109,18 @@ namespace BookClubApp.DAL.Repos
                     Title = i.Title,
                     PublishYear = i.PublishYear
                 }).ToList()
+            };
+        }
+
+        private Core.Models.ReadingListItem ConvertToDomainModel(DAL.Models.ReadingListItem entity)
+        {
+            return new Core.Models.ReadingListItem
+            {
+                Id = entity.Id,
+                ReadingListId = entity.ReadingListId,
+                Author = entity.Author,
+                Title = entity.Title,
+                PublishYear = entity.PublishYear
             };
         }
 

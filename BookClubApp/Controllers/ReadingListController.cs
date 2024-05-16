@@ -1,6 +1,8 @@
 ﻿using BookClubApp.Core.Interfaces;
+using BookClubApp.Core.Models;
 using BookClubApp.DTOs;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookClubApp.Controllers
 {
@@ -24,5 +26,54 @@ namespace BookClubApp.Controllers
                 return BadRequest("Could not add book to the reading list");
             }
         }
+
+        
+        //add DTOs for this api layer instead of using core model?
+        [HttpGet("items")]
+        public async Task<ActionResult<IEnumerable<ReadingListItem>>> GetReadingListItems(int userId)
+        {
+            var items = await _readingListService.GetReadingListItems(userId);
+            return Ok(items);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ReadingListItem>> GetReadingListItem(int id)
+        {
+            var item = await _readingListService.GetReadingListItem(id);
+            if (item == null)
+            {
+                return NotFound();
+            }
+            return Ok(item);
+        }
+
+        [HttpPut("update/{id}")]
+        public async Task<IActionResult> UpdateReadingListItem(int id, [FromBody] ReadingListItemDto dto)
+        {
+            var result = await _readingListService.UpdateReadingListItem(id, dto.Title, dto.Author, dto.PublishYear);
+            if (result)
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest("Could not update book in the reading list");
+            }
+        }
+
+        [HttpDelete("delete/{id}")]
+        public async Task<IActionResult> DeleteReadingListItem(int id)
+        {
+            var result = await _readingListService.DeleteReadingListItem(id);
+            if (result)
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest("Could not delete book from the reading list");
+            }
+        }
+        
     }
 }

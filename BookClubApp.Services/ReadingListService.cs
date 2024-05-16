@@ -36,5 +36,37 @@ namespace BookClubApp.Services
             await _readingListRepository.AddReadingListItem(readingListItem);
             return true;
         }
+
+        
+        public async Task<IEnumerable<ReadingListItem>> GetReadingListItems(int userId)
+        {
+            return await _readingListRepository.GetReadingListItems(userId);
+        }
+
+        public async Task<ReadingListItem> GetReadingListItem(int id)
+        {
+            return await _readingListRepository.GetReadingListItem(id);
+        }
+
+        public async Task<bool> UpdateReadingListItem(int id, string title, string author, int publishYear)
+        {
+            var item = await _readingListRepository.GetReadingListItem(id);
+            if (item == null)
+            {
+                return false;
+            }
+            item.Title = title;
+            item.Author = author;
+            item.PublishYear = publishYear;
+            await _readingListRepository.UpdateReadingListItem(item);
+            return true;
+        }
+        public async Task<bool> DeleteReadingListItem(int id)
+        {
+            var readingListItem = new ReadingListItem { Id = id };
+            await _readingListRepository.DeleteReadingListItem(readingListItem);
+            return true;
+        }
+
     }
 }

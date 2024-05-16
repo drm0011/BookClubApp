@@ -12,5 +12,9 @@ namespace BookClubApp.Core.Interfaces
         Task<ReadingList> GetReadingListByUserId(int userId);
         Task CreateReadingList(ReadingList readingList);
         Task AddReadingListItem(ReadingListItem readingListItem);
+        Task<IEnumerable<ReadingListItem>> GetReadingListItems(int userId);
+        Task<ReadingListItem> GetReadingListItem(int id);
+        Task UpdateReadingListItem(ReadingListItem item);
+        Task DeleteReadingListItem(ReadingListItem item);
     }
 }
