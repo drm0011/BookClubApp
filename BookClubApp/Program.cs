@@ -28,8 +28,8 @@ namespace BookClubApp
             });
 
             // Add services to the container.
-
             builder.Services.AddControllers();
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -47,7 +47,6 @@ namespace BookClubApp
 
             builder.Services.AddHttpClient<IOpenLibraryService, OpenLibraryService>();
 
-
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -57,14 +56,11 @@ namespace BookClubApp
                 app.UseSwaggerUI();
             }
 
-
-
             app.UseHttpsRedirection();
 
             app.UseCors();
 
             app.UseAuthorization();
-
 
             app.MapControllers();
 
@@ -101,6 +97,7 @@ namespace BookClubApp
 
                     result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
                 }
+
                 await webSocket.CloseAsync(result.CloseStatus.Value, result.CloseStatusDescription, CancellationToken.None);
             }
 

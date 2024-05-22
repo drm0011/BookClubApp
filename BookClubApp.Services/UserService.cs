@@ -34,7 +34,5 @@ namespace BookClubApp.Services
             await _userRepository.AddUser(newUser);
             return true;
         }
-
     }
-
 }

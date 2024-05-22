@@ -31,7 +31,6 @@ namespace BookClubApp.Controllers
 
             var result = await _userService.RegisterUser(userModel); 
 
-
             if (result)
             {
                 return Ok(new { message = "Registration successful" });

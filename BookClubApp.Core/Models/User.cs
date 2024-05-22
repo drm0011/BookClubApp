@@ -69,6 +69,5 @@ namespace BookClubApp.Core.Models
             // Hash the new password and update the PasswordHash property
             PasswordHash = passwordHasherService.HashPassword(newPassword);
         }
-
     }
 }

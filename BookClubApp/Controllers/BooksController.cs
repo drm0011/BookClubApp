@@ -6,6 +6,7 @@ namespace BookClubApp.Controllers
     public class BooksController : Controller
     {
         private readonly IOpenLibraryService _openLibraryService;
+
         public BooksController(IOpenLibraryService openLibraryService)
         {
             _openLibraryService = openLibraryService;

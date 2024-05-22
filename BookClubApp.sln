@@ -14,7 +14,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookClubApp.Services", "Boo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookClubApp.Core", "BookClubApp.Core\BookClubApp.Core.csproj", "{25C9D405-EF7A-4441-8D4F-EDD824F844C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookClubApp.Tests", "BookClubApp.Tests\BookClubApp.Tests.csproj", "{84EFFC3D-F7C5-4F19-B5F4-62F5FF35C058}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookClubApp.Tests", "BookClubApp.Tests\BookClubApp.Tests.csproj", "{84EFFC3D-F7C5-4F19-B5F4-62F5FF35C058}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

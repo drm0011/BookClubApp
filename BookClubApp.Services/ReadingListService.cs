@@ -16,6 +16,7 @@ namespace BookClubApp.Services
         {
             _readingListRepository = readingListRepository;
         }
+
         public async Task<bool> AddToReadingList(int userId, string title, string author, int publishYear)
         {
             // ensure user only has a single readinglist
@@ -37,7 +38,6 @@ namespace BookClubApp.Services
             return true;
         }
 
-        
         public async Task<IEnumerable<ReadingListItem>> GetReadingListItems(int userId)
         {
             return await _readingListRepository.GetReadingListItems(userId);
@@ -61,12 +61,12 @@ namespace BookClubApp.Services
             await _readingListRepository.UpdateReadingListItem(item);
             return true;
         }
+
         public async Task<bool> DeleteReadingListItem(int id)
         {
             var readingListItem = new ReadingListItem { Id = id };
             await _readingListRepository.DeleteReadingListItem(readingListItem);
             return true;
         }
-
     }
 }

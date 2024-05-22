@@ -9,11 +9,13 @@ namespace BookClubApp.Controllers
     public class ReadingListController : Controller
     {
         private readonly IReadingListService _readingListService;
+
         public ReadingListController(IReadingListService readingListService)
         {
             _readingListService = readingListService;
         }
-        [HttpPost("add")]
+
+        [HttpPost("readinglist")]
         public async Task<IActionResult> AddToReadingList([FromBody] AddToReadingListDto dto)
         {
             var result = await _readingListService.AddToReadingList(dto.UserId, dto.Title, dto.Author, dto.PublishYear);
@@ -27,16 +29,15 @@ namespace BookClubApp.Controllers
             }
         }
 
-        
-        //add DTOs for this api layer instead of using core model?
-        [HttpGet("items")]
+        // add DTOs for this api layer instead of using core model?
+        [HttpGet("readinglist")]
         public async Task<ActionResult<IEnumerable<ReadingListItem>>> GetReadingListItems(int userId)
         {
             var items = await _readingListService.GetReadingListItems(userId);
             return Ok(items);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("readinglist/{id}")]
         public async Task<ActionResult<ReadingListItem>> GetReadingListItem(int id)
         {
             var item = await _readingListService.GetReadingListItem(id);
@@ -44,10 +45,11 @@ namespace BookClubApp.Controllers
             {
                 return NotFound();
             }
+
             return Ok(item);
         }
 
-        [HttpPut("update/{id}")]
+        [HttpPut("readinglist/{id}")]
         public async Task<IActionResult> UpdateReadingListItem(int id, [FromBody] ReadingListItemDto dto)
         {
             var result = await _readingListService.UpdateReadingListItem(id, dto.Title, dto.Author, dto.PublishYear);
@@ -61,7 +63,7 @@ namespace BookClubApp.Controllers
             }
         }
 
-        [HttpDelete("delete/{id}")]
+        [HttpDelete("readinglist/{id}")]
         public async Task<IActionResult> DeleteReadingListItem(int id)
         {
             var result = await _readingListService.DeleteReadingListItem(id);
@@ -74,6 +76,5 @@ namespace BookClubApp.Controllers
                 return BadRequest("Could not delete book from the reading list");
             }
         }
-        
     }
 }

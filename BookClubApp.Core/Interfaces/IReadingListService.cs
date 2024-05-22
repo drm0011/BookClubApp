@@ -11,10 +11,13 @@ namespace BookClubApp.Core.Interfaces
     public interface IReadingListService
     {
         Task<bool> AddToReadingList(int userId, string title, string author, int publishYear);
-        Task<IEnumerable<ReadingListItem>> GetReadingListItems(int userId);
-        Task<ReadingListItem> GetReadingListItem(int id);
-        Task<bool> UpdateReadingListItem(int id, string title, string author, int publishYear);
-        Task<bool> DeleteReadingListItem(int id);
 
+        Task<IEnumerable<ReadingListItem>> GetReadingListItems(int userId);
+
+        Task<ReadingListItem> GetReadingListItem(int id);
+
+        Task<bool> UpdateReadingListItem(int id, string title, string author, int publishYear);
+
+        Task<bool> DeleteReadingListItem(int id);
     }
 }

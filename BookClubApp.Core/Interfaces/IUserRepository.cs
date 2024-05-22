@@ -10,6 +10,7 @@ namespace BookClubApp.Core.Interfaces
     public interface IUserRepository
     {
         Task<bool> UserExists(string username);
+
         Task AddUser(User user);
     }
 }

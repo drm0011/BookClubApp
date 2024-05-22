@@ -12,6 +12,5 @@ namespace BookClubApp.DAL.Models
         public int UserId { get; set; }
         public User User { get; set; }
         public ICollection<ReadingListItem> Items { get; set; } = new List<ReadingListItem>();
-
     }
 }
