@@ -20,8 +20,5 @@ WORKDIR /app
 # Copy the published build from the SDK base image to the runtime base image
 COPY --from=build /app/publish .
 
-# Expose the port your application will run on
-EXPOSE 7129
-
 # Define the entry point to run the project
 ENTRYPOINT ["dotnet", "BookClubApp.dll"]  
