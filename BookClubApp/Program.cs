@@ -5,8 +5,7 @@ using BookClubApp.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using BookClubApp.DAL.Repos;
-using System.Net.WebSockets;
-using System.Text;
+using BookClubApp.Middleware;
 
 namespace BookClubApp
 {
@@ -47,6 +46,9 @@ namespace BookClubApp
 
             builder.Services.AddHttpClient<IOpenLibraryService, OpenLibraryService>();
 
+            builder.Services.AddScoped<IChatMessageRepository, ChatMessageRepository>();
+            builder.Services.AddScoped<IChatMessageService, ChatMessageService>();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -65,41 +67,7 @@ namespace BookClubApp
             app.MapControllers();
 
             app.UseWebSockets();
-
-            app.Use(async (context, next) =>
-            {
-                if (context.Request.Path == "/chat")
-                {
-                    if (context.WebSockets.IsWebSocketRequest)
-                    {
-                        WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync();
-                        await Echo(context, webSocket);
-                    }
-                    else
-                    {
-                        context.Response.StatusCode = 400;
-                    }
-                }
-                else
-                {
-                    await next();
-                }
-            });
-
-            async Task Echo(HttpContext context, WebSocket webSocket)
-            {
-                var buffer = new byte[1024 * 4];
-                WebSocketReceiveResult result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
-                while (!result.CloseStatus.HasValue)
-                {
-                    var serverMsg = Encoding.UTF8.GetBytes("Server: " + Encoding.UTF8.GetString(buffer, 0, result.Count));
-                    await webSocket.SendAsync(new ArraySegment<byte>(serverMsg, 0, serverMsg.Length), result.MessageType, result.EndOfMessage, CancellationToken.None);
-
-                    result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
-                }
-
-                await webSocket.CloseAsync(result.CloseStatus.Value, result.CloseStatusDescription, CancellationToken.None);
-            }
+            app.UseMiddleware<WebSocketMiddleware>();
 
             app.Run();
         }

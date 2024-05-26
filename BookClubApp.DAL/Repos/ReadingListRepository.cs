@@ -80,34 +80,54 @@ namespace BookClubApp.DAL.Repos
 
         private Core.Models.ReadingList ConvertToDomainModel(DAL.Models.ReadingList entity)
         {
+            if (entity == null) return null;
+
             return new Core.Models.ReadingList
             {
                 Id = entity.Id,
                 UserId = entity.UserId,
-                Items = entity.Items.Select(i => new Core.Models.ReadingListItem
+                Items = entity.Items?.Select(i => new Core.Models.ReadingListItem
                 {
                     Id = i.Id,
-                    ReadingListId = i.ReadingListId,
-                    Author = i.Author,
                     Title = i.Title,
-                    PublishYear = i.PublishYear
+                    Author = i.Author,
+                    PublishYear = i.PublishYear,
+                    ReadingListId = i.ReadingListId
+                }).ToList(),
+                ChatMessages = entity.ChatMessages?.Select(cm => new Core.Models.ChatMessage
+                {
+                    Id = cm.Id,
+                    Sender = cm.Sender,
+                    Message = cm.Message,
+                    Timestamp = cm.Timestamp,
+                    ReadingListId = cm.ReadingListId
                 }).ToList()
             };
         }
 
-        private DAL.Models.ReadingList ConvertToEntity(Core.Models.ReadingList domainModel)
+        private DAL.Models.ReadingList ConvertToEntity(Core.Models.ReadingList readingList)
         {
+            if (readingList == null) return null;
+
             return new DAL.Models.ReadingList
             {
-                Id = domainModel.Id,
-                UserId = domainModel.UserId,
-                Items = domainModel.Items.Select(i => new DAL.Models.ReadingListItem
+                Id = readingList.Id,
+                UserId = readingList.UserId,
+                Items = readingList.Items?.Select(i => new DAL.Models.ReadingListItem
                 {
                     Id = i.Id,
-                    ReadingListId = i.ReadingListId,
-                    Author = i.Author,
                     Title = i.Title,
-                    PublishYear = i.PublishYear
+                    Author = i.Author,
+                    PublishYear = i.PublishYear,
+                    ReadingListId = i.ReadingListId
+                }).ToList(),
+                ChatMessages = readingList.ChatMessages?.Select(cm => new DAL.Models.ChatMessage
+                {
+                    Id = cm.Id,
+                    Sender = cm.Sender,
+                    Message = cm.Message,
+                    Timestamp = cm.Timestamp,
+                    ReadingListId = cm.ReadingListId
                 }).ToList()
             };
         }

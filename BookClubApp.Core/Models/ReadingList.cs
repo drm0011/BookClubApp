@@ -12,5 +12,6 @@ namespace BookClubApp.Core.Models
         public int UserId { get; set; }
         public User User { get; set; }
         public ICollection<ReadingListItem> Items { get; set; } = new List<ReadingListItem>();
+        public ICollection<ChatMessage> ChatMessages { get; set; } = new List<ChatMessage>(); 
     }
 }
