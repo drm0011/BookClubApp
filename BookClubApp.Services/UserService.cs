@@ -1,5 +1,5 @@
-﻿using BookClubApp.Core.Interfaces;
-using BookClubApp.Core.Models;
+﻿using BookClubApp.Core.DTOs;
+using BookClubApp.Core.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -28,18 +28,11 @@ namespace BookClubApp.Services
             }
             var hashedPassword = _passwordHasherService.HashPassword(userModel.Password);
 
-            var newUser = new Core.Models.User  
-            {
-                Username = userModel.Username,
-                Email = userModel.Email
-            };
-
+            var newUser = new Core.Models.User(userModel.Username, userModel.Email);
             newUser.SetPassword(userModel.Password, _passwordHasherService);
 
             await _userRepository.AddUser(newUser);
             return true;
         }
-
     }
-
 }

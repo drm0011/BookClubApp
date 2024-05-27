@@ -1,7 +1,7 @@
 ﻿using BookClubApp.DTOs;
 using BookClubApp.Core.Interfaces;
-using BookClubApp.Core.Models;
 using Microsoft.AspNetCore.Mvc;
+using BookClubApp.Core.DTOs;
 
 namespace BookClubApp.Controllers
 {
@@ -30,7 +30,6 @@ namespace BookClubApp.Controllers
             };
 
             var result = await _userService.RegisterUser(userModel); 
-
 
             if (result)
             {

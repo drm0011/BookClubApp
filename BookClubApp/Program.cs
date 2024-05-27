@@ -5,6 +5,7 @@ using BookClubApp.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using BookClubApp.DAL.Repos;
+using BookClubApp.Middleware;
 
 namespace BookClubApp
 {
@@ -18,15 +19,16 @@ namespace BookClubApp
             {
                 options.AddDefaultPolicy(builder =>
                 {
-                    builder.WithOrigins("http://localhost:3000") 
+                    builder.WithOrigins("http://localhost:3000")
                            .AllowAnyHeader()
-                           .AllowAnyMethod();
+                           .AllowAnyMethod()
+                           .AllowCredentials();
                 });
             });
 
             // Add services to the container.
-
             builder.Services.AddControllers();
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -37,8 +39,15 @@ namespace BookClubApp
             builder.Services.AddScoped<IPasswordHasherService, PasswordHasherService>();
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<IReadingListRepository, ReadingListRepository>();
+            builder.Services.AddScoped<IReadingListService, ReadingListService>();
+
             builder.Services.AddScoped<IPasswordHasher<object>, PasswordHasher<object>>();
 
+            builder.Services.AddHttpClient<IOpenLibraryService, OpenLibraryService>();
+
+            builder.Services.AddScoped<IChatMessageRepository, ChatMessageRepository>();
+            builder.Services.AddScoped<IChatMessageService, ChatMessageService>();
 
             var app = builder.Build();
 
@@ -55,8 +64,10 @@ namespace BookClubApp
 
             app.UseAuthorization();
 
-
             app.MapControllers();
+
+            app.UseWebSockets();
+            app.UseMiddleware<WebSocketMiddleware>();
 
             app.Run();
         }

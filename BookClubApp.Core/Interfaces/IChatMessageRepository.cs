@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace BookClubApp.Core.Interfaces
 {
-    public interface IUserRepository
+    public interface IChatMessageRepository
     {
-        Task<bool> UserExists(string username);
-
-        Task AddUser(User user);
+        Task AddChatMessage(ChatMessage chatMessage);
+        Task<IEnumerable<Core.Models.ChatMessage>> GetChatMessages(int readingListId);
     }
 }

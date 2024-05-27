@@ -4,6 +4,7 @@ using BookClubApp.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookClubApp.DAL.Migrations
 {
     [DbContext(typeof(BookClubAppContext))]
-    partial class BookClubAppContextModelSnapshot : ModelSnapshot
+    [Migration("20240424183554_ChangeReadingListItem")]
+    partial class ChangeReadingListItem
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -56,35 +59,6 @@ namespace BookClubApp.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Books");
-                });
-
-            modelBuilder.Entity("BookClubApp.DAL.Models.ChatMessage", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Message")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ReadingListId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Sender")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("Timestamp")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ReadingListId");
-
-                    b.ToTable("ChatMessages");
                 });
 
             modelBuilder.Entity("BookClubApp.DAL.Models.ReadingList", b =>
@@ -132,7 +106,7 @@ namespace BookClubApp.DAL.Migrations
 
                     b.HasIndex("ReadingListId");
 
-                    b.ToTable("ReadingListItems");
+                    b.ToTable("ReadingListItem");
                 });
 
             modelBuilder.Entity("BookClubApp.DAL.Models.Review", b =>
@@ -186,17 +160,6 @@ namespace BookClubApp.DAL.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("BookClubApp.DAL.Models.ChatMessage", b =>
-                {
-                    b.HasOne("BookClubApp.DAL.Models.ReadingList", "ReadingList")
-                        .WithMany("ChatMessages")
-                        .HasForeignKey("ReadingListId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ReadingList");
-                });
-
             modelBuilder.Entity("BookClubApp.DAL.Models.ReadingList", b =>
                 {
                     b.HasOne("BookClubApp.DAL.Models.User", "User")
@@ -237,8 +200,6 @@ namespace BookClubApp.DAL.Migrations
 
             modelBuilder.Entity("BookClubApp.DAL.Models.ReadingList", b =>
                 {
-                    b.Navigation("ChatMessages");
-
                     b.Navigation("Items");
                 });
 

@@ -1,5 +1,4 @@
-﻿using BookClubApp.Core.DTOs;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace BookClubApp.Core.Interfaces
 {
-    public interface IUserService
+    public interface IOpenLibraryService
     {
-        Task<bool> RegisterUser(UserRegistrationModel user);
+        Task<string> SearchBooks(string query);
     }
 }

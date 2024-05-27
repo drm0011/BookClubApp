@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 namespace BookClubApp.DAL.Models
 {
-    public class User
+    public class ReadingListItem
     {
         public int Id { get; init; }
-        public string Username { get; set; }
-        public string Email { get; set; }
-        public string PasswordHash { get; set; }
+        public int ReadingListId { get; set; }
         public ReadingList ReadingList { get; set; }
+        public string Author { get; set; }
+        public string Title { get; set; }
+        public int? PublishYear { get; set; }
     }
 }

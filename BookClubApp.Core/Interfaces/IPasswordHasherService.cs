@@ -10,6 +10,7 @@ namespace BookClubApp.Core.Interfaces
     public interface IPasswordHasherService
     {
         string HashPassword(string password);
+
         PasswordVerificationResult VerifyPassword(string hashedPassword, string providedPassword);
     }
 }

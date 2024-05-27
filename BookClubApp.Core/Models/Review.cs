@@ -5,14 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BookClubApp.DAL.Models
+namespace BookClubApp.Core.Models
 {
-    public class Review
+    public class Review //encapsulation, create rating method, update rating method
     {
         public int Id { get; init; }
-        [Required, StringLength(2000)]
-        public string Content {  get; set; }
-        [Range(1, 5)]
+        public string Content { get; set; }
+        //[Range(1, 5)]
         public int Rating { get; set; }
         public int BookId { get; set; }
         public Book Book { get; set; }
