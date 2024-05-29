@@ -5,7 +5,6 @@ using BookClubApp.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using BookClubApp.DAL.Repos;
-using BookClubApp.Middleware;
 
 namespace BookClubApp
 {
@@ -28,6 +27,7 @@ namespace BookClubApp
 
             // Add services to the container.
             builder.Services.AddControllers();
+            builder.Services.AddSignalR();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -64,10 +64,8 @@ namespace BookClubApp
 
             app.UseAuthorization();
 
-            app.MapControllers();
-
-            app.UseWebSockets();
-            app.UseMiddleware<WebSocketMiddleware>();
+            app.MapControllers(); 
+            app.MapHub<ChatHub>("/chatHub");  // Map SignalR hub
 
             app.Run();
         }
