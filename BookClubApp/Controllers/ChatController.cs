@@ -6,8 +6,6 @@ using System.Threading.Tasks;
 
 namespace BookClubApp.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
     public class ChatController : ControllerBase
     {
         private readonly IChatMessageService _chatMessageService;

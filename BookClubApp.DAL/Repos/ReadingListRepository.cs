@@ -22,6 +22,7 @@ namespace BookClubApp.DAL.Repos
         {
             var entity = await _context.ReadingList
                 .Include(rl => rl.Items)
+                .Include(rl=>rl.ChatMessages)
                 .FirstOrDefaultAsync(rl => rl.UserId == userId);
 
             return entity == null ? null : ConvertToDomainModel(entity);

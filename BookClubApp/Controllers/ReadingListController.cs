@@ -29,6 +29,25 @@ namespace BookClubApp.Controllers
             }
         }
 
+        [HttpGet("readinglist/metadata/{userId}")]
+        public async Task<ActionResult<ReadingListMetadataDto>> GetReadingListMetadata(int userId)
+        {
+            var readingList = await _readingListService.GetReadingListMetadataByUserId(userId);
+            if (readingList == null)
+            {
+                return NotFound();
+            }
+
+            var metadata = new ReadingListMetadataDto
+            {
+                ReadingListId = readingList.Id,
+                UserId = readingList.UserId,
+                // Add other metadata if needed
+            };
+
+            return Ok(metadata);
+        }
+
         // add DTOs for this api layer instead of using core model?
         [HttpGet("readinglist")]
         public async Task<ActionResult<IEnumerable<ReadingListItem>>> GetReadingListItems(int userId)

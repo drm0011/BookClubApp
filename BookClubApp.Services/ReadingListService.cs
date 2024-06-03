@@ -38,6 +38,11 @@ namespace BookClubApp.Services
             return true;
         }
 
+        public async Task<ReadingList> GetReadingListMetadataByUserId(int userId)
+        {
+            return await _readingListRepository.GetReadingListByUserId(userId);
+        }
+
         public async Task<IEnumerable<ReadingListItem>> GetReadingListItems(int userId)
         {
             return await _readingListRepository.GetReadingListItems(userId);

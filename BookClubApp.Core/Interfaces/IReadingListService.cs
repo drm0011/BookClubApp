@@ -11,6 +11,7 @@ namespace BookClubApp.Core.Interfaces
     public interface IReadingListService
     {
         Task<bool> AddToReadingList(int userId, string title, string author, int publishYear);
+        Task<ReadingList> GetReadingListMetadataByUserId(int userId);
 
         Task<IEnumerable<ReadingListItem>> GetReadingListItems(int userId);
 
