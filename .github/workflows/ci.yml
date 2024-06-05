@@ -1,14 +1,14 @@
-name: CI Build, Test and SonarCloud Analysis
+name: CI Build and Test
 
 on:
   push:
-    branches: [ "master" ]  
+    branches: [ "master" ]
   pull_request:
     branches: [ "master" ]  
 
 jobs:
-  build-test-and-sonarcloud:
-    runs-on: ubuntu-latest 
+  build-and-test:
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout Code
@@ -17,24 +17,10 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: '8.0'  
+        dotnet-version: '8.0'
 
     - name: Build Project
       run: dotnet build --configuration Release
 
     - name: Run Unit Tests
-      run: dotnet test --configuration Release --collect:"XPlat Code Coverage"
-
-    - name: Setup SonarCloud
-      uses: SonarSource/sonarcloud-github-action@v1.5
-      with:
-        projectBaseDir: '.'
-
-    - name: Run SonarCloud Scan
-      env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      run: |
-        dotnet tool install --global dotnet-sonarscanner
-        dotnet sonarscanner begin /k:"drm0011_BookClubApp" /o:"drm0011" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.cs.opencover.reportsPaths="**/TestResults/*.xml"
-        dotnet build
-        dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+      run: dotnet test --configuration Release
