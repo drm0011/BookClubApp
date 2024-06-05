@@ -28,7 +28,7 @@ jobs:
     - name: Setup SonarCloud
       uses: SonarSource/sonarcloud-github-action@v1.5
       with:
-        token: ${{ secrets.SONAR_TOKEN }}
+        projectBaseDir: '.'
 
     - name: Run SonarCloud Scan
       env:
