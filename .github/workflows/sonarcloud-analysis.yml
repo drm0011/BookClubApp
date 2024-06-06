@@ -27,6 +27,9 @@ jobs:
 
     - name: Install SonarScanner Global Tool
       run: dotnet tool install --global dotnet-sonarscanner
+      
+    - name: Install Coverlet Global Tool
+      run: dotnet tool install --global coverlet.console
 
     - name: Run SonarCloud Analysis
       env:
@@ -35,4 +38,5 @@ jobs:
         export PATH="$PATH:/home/runner/.dotnet/tools"
         dotnet sonarscanner begin /k:"drm0011_BookClubApp" /o:"drm0011" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.cs.opencover.reportsPaths="**/TestResults/*.xml"
         dotnet build
+        dotnet test --collect:"XPlat Code Coverage" /p:CoverletOutputFormat=opencover /p:CoverletOutput=./TestResults/
         dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
