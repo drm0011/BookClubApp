@@ -19,23 +19,41 @@ namespace BookClubApp.Services
 
         public async Task<bool> AddToReadingList(int userId, string title, string author, int publishYear)
         {
-            // ensure user only has a single readinglist
-            var readingList = await _readingListRepository.GetReadingListByUserId(userId);
-            if (readingList == null)
+            if (string.IsNullOrEmpty(title) || string.IsNullOrEmpty(author) || publishYear <= 0)
             {
-                readingList = new ReadingList { UserId = userId };
-                await _readingListRepository.CreateReadingList(readingList);
+                throw new ArgumentException("Invalid book details provided.");
             }
 
-            bool bookExists = readingList.Items.Any(item => item.Title == title);
-            if (bookExists)
+            try
             {
-                return false; 
-            }
+                var readingList = await _readingListRepository.GetReadingListByUserId(userId);
+                if (readingList == null)
+                {
+                    readingList = new ReadingList { UserId = userId };
+                    await _readingListRepository.CreateReadingList(readingList);
+                }
 
-            var readingListItem = new ReadingListItem { Title=title, Author=author, PublishYear=publishYear, ReadingListId = readingList.Id };
-            await _readingListRepository.AddReadingListItem(readingListItem);
-            return true;
+                bool bookExists = readingList.Items.Any(item => item.Title == title);
+                if (bookExists)
+                {
+                    throw new InvalidOperationException("The book already exists in the reading list.");
+                }
+
+                var readingListItem = new ReadingListItem
+                {
+                    Title = title,
+                    Author = author,
+                    PublishYear = publishYear,
+                    ReadingListId = readingList.Id
+                };
+                await _readingListRepository.AddReadingListItem(readingListItem);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                // Log exception (not shown here)
+                throw new ApplicationException("An error occurred while adding the book to the reading list.", ex);
+            }
         }
 
         public async Task<ReadingList> GetReadingListMetadataByUserId(int userId)
