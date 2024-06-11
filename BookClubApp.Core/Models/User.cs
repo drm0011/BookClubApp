@@ -10,6 +10,7 @@ namespace BookClubApp.Core.Models
 {
     public class User
     {
+        // use the methods here ?
         public int Id { get; init; }
         private string _username;
         public string Username { 

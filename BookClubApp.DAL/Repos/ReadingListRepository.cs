@@ -20,11 +20,20 @@ namespace BookClubApp.DAL.Repos
         //add errorhandling 
         public async Task<Core.Models.ReadingList> GetReadingListByUserId(int userId)
         {
-            var entity = await _context.ReadingList
-                .Include(rl => rl.Items)
-                .FirstOrDefaultAsync(rl => rl.UserId == userId);
+            try
+            {
+                var entity = await _context.ReadingList
+                    .Include(rl => rl.Items)
+                    .Include(rl => rl.ChatMessages)
+                    .FirstOrDefaultAsync(rl => rl.UserId == userId);
 
-            return entity == null ? null : ConvertToDomainModel(entity);
+                return entity == null ? null : ConvertToDomainModel(entity);
+            }
+            catch (Exception ex)
+            {
+                // Log exception
+                throw new ApplicationException("An error occurred while retrieving the reading list.", ex);
+            }
         }
 
         public async Task CreateReadingList(Core.Models.ReadingList readingList)
