@@ -14,6 +14,7 @@ namespace BookClubApp.Controllers
             _userService = userService;
         }
 
+
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] UserRegistrationDto registrationDto)
         {
