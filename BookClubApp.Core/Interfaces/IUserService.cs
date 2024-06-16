@@ -10,5 +10,6 @@ namespace BookClubApp.Core.Interfaces
     public interface IUserService
     {
         Task<bool> RegisterUser(UserRegistrationModel user);
+        Task<string> AuthenticateUser(UserLoginModel loginModel);
     }
 }

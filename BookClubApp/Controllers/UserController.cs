@@ -41,5 +41,24 @@ namespace BookClubApp.Controllers
                 return BadRequest(new { message = "Registration failed. Username may already be taken." });
             }
         }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] UserLoginDto loginDto)
+        {
+            var loginModel = new UserLoginModel
+            {
+                Username = loginDto.Username,
+                Password = loginDto.Password
+            };
+
+            var token = await _userService.AuthenticateUser(loginModel);
+
+            if (token == null)
+            {
+                return Unauthorized(new { message = "Invalid username or password" });
+            }
+
+            return Ok(new { token });
+        }
     }
 }

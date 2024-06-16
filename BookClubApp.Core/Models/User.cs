@@ -47,7 +47,20 @@ namespace BookClubApp.Core.Models
             Email = email;
             _readingList = new ReadingList(); 
         }
-        
+
+        private User(int id, string username, string email, string passwordHash)
+        {
+            Id = id;
+            Username = username;
+            Email = email;
+            PasswordHash = passwordHash;
+            _readingList = new ReadingList();
+        }
+
+        public static User Create(int id, string username, string email, string passwordHash)
+        {
+            return new User(id, username, email, passwordHash);
+        }
         public void AddToReadingList(ReadingListItem item)
         {
             if(item==null) throw new ArgumentNullException(nameof(item), "Cannot add null item to reading list.");
