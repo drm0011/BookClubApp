@@ -29,8 +29,7 @@ namespace BookClubApp.Services
                 var readingList = await _readingListRepository.GetReadingListByUserId(userId);
                 if (readingList == null)
                 {
-                    readingList = new ReadingList { UserId = userId };
-                    await _readingListRepository.CreateReadingList(readingList);
+                    throw new ApplicationException("Reading list not found.");
                 }
 
                 bool bookExists = readingList.Items.Any(item => item.Title == title);

@@ -10,6 +10,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BookClubApp.Core.Models;
 
 namespace BookClubApp.Services
 {
@@ -18,12 +19,18 @@ namespace BookClubApp.Services
         private readonly IUserRepository _userRepository;
         private readonly IPasswordHasherService _passwordHasherService;
         private readonly IConfiguration _configuration;
+        private readonly IReadingListRepository _readingListRepository;
 
-        public UserService(IUserRepository userRepository, IPasswordHasherService passwordHasherService, IConfiguration configuration)
+        public UserService(
+            IUserRepository userRepository,
+            IPasswordHasherService passwordHasherService,
+            IConfiguration configuration,
+            IReadingListRepository readingListRepository)
         {
             _userRepository = userRepository;
             _passwordHasherService = passwordHasherService;
             _configuration = configuration;
+            _readingListRepository = readingListRepository;
         }
 
         public async Task<bool> RegisterUser(UserRegistrationModel userModel)
@@ -49,6 +56,14 @@ namespace BookClubApp.Services
                 return null;
             }
 
+            // Ensure the user has a reading list
+            var readingList = await _readingListRepository.GetReadingListByUserId(user.Id);
+            if (readingList == null)
+            {
+                readingList = new ReadingList { UserId = user.Id };
+                await _readingListRepository.CreateReadingList(readingList);
+            }
+
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]);
             var tokenDescriptor = new SecurityTokenDescriptor
@@ -60,6 +75,5 @@ namespace BookClubApp.Services
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
-
     }
 }
