@@ -2,7 +2,8 @@
 using BookClubApp.Core.Models;
 using BookClubApp.DTOs;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BookClubApp.Controllers
 {
@@ -53,67 +54,105 @@ namespace BookClubApp.Controllers
         [HttpGet("readinglist/metadata/{userId}")]
         public async Task<ActionResult<ReadingListMetadataDto>> GetReadingListMetadata(int userId)
         {
-            var readingList = await _readingListService.GetReadingListMetadataByUserId(userId);
-            if (readingList == null)
+            try
             {
-                return NotFound();
+                var readingList = await _readingListService.GetReadingListMetadataByUserId(userId);
+                if (readingList == null)
+                {
+                    return NotFound();
+                }
+
+                var metadata = new ReadingListMetadataDto
+                {
+                    ReadingListId = readingList.Id,
+                    UserId = readingList.UserId,
+                    // Add other metadata if needed
+                };
+
+                return Ok(metadata);
             }
-
-            var metadata = new ReadingListMetadataDto
+            catch (Exception ex)
             {
-                ReadingListId = readingList.Id,
-                UserId = readingList.UserId,
-                // Add other metadata if needed
-            };
-
-            return Ok(metadata);
+                
+                return StatusCode(500, "An unexpected error occurred. Please try again later.");
+            }
         }
 
-        // add DTOs for this api layer instead of using core model?
         [HttpGet("readinglist")]
         public async Task<ActionResult<IEnumerable<ReadingListItem>>> GetReadingListItems(int userId)
         {
-            var items = await _readingListService.GetReadingListItems(userId);
-            return Ok(items);
+            try
+            {
+                var items = await _readingListService.GetReadingListItems(userId);
+                return Ok(items);
+            }
+            catch (Exception ex)
+            {
+                
+                return StatusCode(500, "An unexpected error occurred. Please try again later.");
+            }
         }
 
         [HttpGet("readinglist/{id}")]
         public async Task<ActionResult<ReadingListItem>> GetReadingListItem(int id)
         {
-            var item = await _readingListService.GetReadingListItem(id);
-            if (item == null)
+            try
             {
-                return NotFound();
-            }
+                var item = await _readingListService.GetReadingListItem(id);
+                if (item == null)
+                {
+                    return NotFound();
+                }
 
-            return Ok(item);
+                return Ok(item);
+            }
+            catch (Exception ex)
+            {
+                
+                return StatusCode(500, "An unexpected error occurred. Please try again later.");
+            }
         }
 
         [HttpPut("readinglist/{id}")]
         public async Task<IActionResult> UpdateReadingListItem(int id, [FromBody] ReadingListItemDto dto)
         {
-            var result = await _readingListService.UpdateReadingListItem(id, dto.Title, dto.Author, dto.PublishYear);
-            if (result)
+            try
             {
-                return Ok();
+                var result = await _readingListService.UpdateReadingListItem(id, dto.Title, dto.Author, dto.PublishYear);
+                if (result)
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest("Could not update book in the reading list");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest("Could not update book in the reading list");
+                return StatusCode(500, "An unexpected error occurred. Please try again later.");
             }
         }
 
         [HttpDelete("readinglist/{id}")]
         public async Task<IActionResult> DeleteReadingListItem(int id)
         {
-            var result = await _readingListService.DeleteReadingListItem(id);
-            if (result)
+            try
             {
-                return Ok();
+                var result = await _readingListService.DeleteReadingListItem(id);
+                if (result)
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest("Could not delete book from the reading list");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest("Could not delete book from the reading list");
+                
+                return StatusCode(500, "An unexpected error occurred. Please try again later.");
             }
         }
     }

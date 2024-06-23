@@ -14,7 +14,7 @@ namespace BookClubApp.Services
 
         public ReadingListService(IReadingListRepository readingListRepository)
         {
-            _readingListRepository = readingListRepository;
+            _readingListRepository = readingListRepository ?? throw new ArgumentNullException(nameof(readingListRepository));
         }
 
         public async Task<bool> AddToReadingList(int userId, string title, string author, int publishYear)
