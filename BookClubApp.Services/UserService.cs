@@ -46,9 +46,9 @@ namespace BookClubApp.Services
                 return false;
             }
 
-            var hashedPassword = _passwordHasherService.HashPassword(userModel.Password);
+            //var hashedPassword = _passwordHasherService.HashPassword(userModel.Password);
             var newUser = new User(userModel.Username, userModel.Email);
-            newUser.SetPassword(hashedPassword, _passwordHasherService);
+            newUser.SetPassword(userModel.Password, _passwordHasherService);
 
             await _userRepository.AddUser(newUser);
             return true;
