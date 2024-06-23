@@ -34,5 +34,15 @@ namespace BookClubApp.DAL.Repos
         {
             return await _context.Users.AnyAsync(u => u.Username == username);
         }
+        public async Task<Core.Models.User> GetUserByUsername(string username)
+        {
+            var userEntity = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
+            if (userEntity == null)
+            {
+                return null;
+            }
+
+            return Core.Models.User.Create(userEntity.Id, userEntity.Username, userEntity.Email, userEntity.PasswordHash);
+        }
     }
 }

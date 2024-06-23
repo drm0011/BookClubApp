@@ -14,7 +14,7 @@ namespace BookClubApp.Services
 
         public ReadingListService(IReadingListRepository readingListRepository)
         {
-            _readingListRepository = readingListRepository;
+            _readingListRepository = readingListRepository ?? throw new ArgumentNullException(nameof(readingListRepository));
         }
 
         public async Task<bool> AddToReadingList(int userId, string title, string author, int publishYear)
@@ -29,8 +29,7 @@ namespace BookClubApp.Services
                 var readingList = await _readingListRepository.GetReadingListByUserId(userId);
                 if (readingList == null)
                 {
-                    readingList = new ReadingList { UserId = userId };
-                    await _readingListRepository.CreateReadingList(readingList);
+                    throw new ApplicationException("Reading list not found.");
                 }
 
                 bool bookExists = readingList.Items.Any(item => item.Title == title);

@@ -40,7 +40,7 @@ namespace BookClubApp.Tests
         [TestMethod]
         public async Task AddChatMessage_ShouldAddMessageToDatabase()
         {
-            // Arrange
+            
             var chatMessage = new ChatMessage
             {
                 Id = 1,
@@ -50,10 +50,10 @@ namespace BookClubApp.Tests
                 ReadingListId = 1
             };
 
-            // Act
+            
             await _service.AddChatMessage(chatMessage);
 
-            // Assert
+            
             var result = await _context.ChatMessages.FirstOrDefaultAsync(cm => cm.Id == chatMessage.Id);
             Assert.IsNotNull(result);
             Assert.AreEqual("Hello, World!", result.Message);
@@ -62,7 +62,7 @@ namespace BookClubApp.Tests
         [TestMethod]
         public async Task GetChatMessages_ShouldReturnMessages()
         {
-            // Arrange
+            
             var chatMessage = new ChatMessage
             {
                 Id = 1,
@@ -81,10 +81,10 @@ namespace BookClubApp.Tests
             });
             await _context.SaveChangesAsync();
 
-            // Act
+            
             var messages = await _service.GetChatMessages(1);
 
-            // Assert
+            
             Assert.AreEqual(1, messages.Count());
             Assert.AreEqual("Hello, World!", messages.First().Message);
         }
