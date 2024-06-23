@@ -39,13 +39,10 @@ namespace BookClubApp.Tests
         [TestMethod]
         public async Task AddUser_ShouldAddUserToDatabase()
         {
-            
             var user = new User("testuser", "test@example.com");
             user.SetPassword("hashedpassword", _passwordHasherService);
-
             
             await _repository.AddUser(user);
-
             
             var result = await _context.Users.FirstOrDefaultAsync(u => u.Username == "testuser");
             Assert.IsNotNull(result);
@@ -55,7 +52,6 @@ namespace BookClubApp.Tests
         [TestMethod]
         public async Task UserExists_ShouldReturnTrueIfUserExists()
         {
-            
             var user = new DAL.Models.User
             {
                 Username = "testuser",
@@ -64,11 +60,9 @@ namespace BookClubApp.Tests
             };
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
-
             
             var exists = await _repository.UserExists("testuser");
 
-            
             Assert.IsTrue(exists);
         }
 
