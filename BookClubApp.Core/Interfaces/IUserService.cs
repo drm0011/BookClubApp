@@ -1,4 +1,5 @@
 ﻿using BookClubApp.Core.DTOs;
+using BookClubApp.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,6 @@ namespace BookClubApp.Core.Interfaces
     {
         Task<bool> RegisterUser(UserRegistrationModel user);
         Task<string> AuthenticateUser(UserLoginModel loginModel);
+        Task<IEnumerable<UserDto>> GetAllUsers();
     }
 }

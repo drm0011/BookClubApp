@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 using BookClubApp.Core.DTOs;
+using BookClubApp.Core.Models;
 
 namespace BookClubApp.Controllers
 {
@@ -74,6 +75,20 @@ namespace BookClubApp.Controllers
             catch (Exception ex)
             {
                 
+                return StatusCode(500, "An unexpected error occurred. Please try again later.");
+            }
+        }
+
+        [HttpGet("users")]
+        public async Task<ActionResult<IEnumerable<GetUserDto>>> GetAllUsers()
+        {
+            try
+            {
+                var users = await _userService.GetAllUsers();
+                return Ok(users);
+            }
+            catch (Exception ex)
+            {
                 return StatusCode(500, "An unexpected error occurred. Please try again later.");
             }
         }

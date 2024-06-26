@@ -80,5 +80,15 @@ namespace BookClubApp.Services
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
+
+        public async Task<IEnumerable<UserDto>> GetAllUsers()
+        {
+            var users = await _userRepository.GetAllUsers();
+            return users.Select(user => new UserDto
+            {
+                Id = user.Id,
+                Username = user.Username
+            }).ToList();
+        }
     }
 }
