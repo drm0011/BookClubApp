@@ -14,7 +14,6 @@ namespace BookClubApp.Core.Interfaces
         Task AddUser(User user);
         Task<Core.Models.User> GetUserByUsername(string username);
         Task<IEnumerable<Core.Models.User>> GetAllUsers();
-        Task<Core.Models.User> GetUserByUsername(string username);
         Task<bool> UserExistsByEmail(string email);
     }
 }
