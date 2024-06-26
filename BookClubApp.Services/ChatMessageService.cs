@@ -14,11 +14,12 @@ namespace BookClubApp.Services
 
         public ChatMessageService(IChatMessageRepository chatMessageRepository)
         {
-            _chatMessageRepository = chatMessageRepository;
+            _chatMessageRepository = chatMessageRepository ?? throw new ArgumentNullException(nameof(chatMessageRepository));
         }
 
         public async Task AddChatMessage(ChatMessage chatMessage)
         {
+            if (chatMessage == null) throw new ArgumentNullException(nameof(chatMessage));
             await _chatMessageRepository.AddChatMessage(chatMessage);
         }
 

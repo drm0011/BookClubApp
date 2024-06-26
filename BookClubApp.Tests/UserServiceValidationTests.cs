@@ -1,12 +1,11 @@
-﻿using BookClubApp.Core.Interfaces;
+﻿using BookClubApp.Core.DTOs;
+using BookClubApp.Core.Interfaces;
 using BookClubApp.Core.Models;
-using BookClubApp.Core.DTOs;
 using BookClubApp.Services;
+using Microsoft.Extensions.Configuration;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BookClubApp.Tests
@@ -16,6 +15,8 @@ namespace BookClubApp.Tests
     {
         private Mock<IUserRepository> _mockUserRepository;
         private Mock<IPasswordHasherService> _mockPasswordHasherService;
+        private Mock<IReadingListRepository> _mockReadingListRepository;
+        private Mock<IConfiguration> _mockConfiguration;
         private UserService _userService;
 
         [TestInitialize]
@@ -23,7 +24,9 @@ namespace BookClubApp.Tests
         {
             _mockUserRepository = new Mock<IUserRepository>();
             _mockPasswordHasherService = new Mock<IPasswordHasherService>();
-            _userService = new UserService(_mockUserRepository.Object, _mockPasswordHasherService.Object);
+            _mockReadingListRepository = new Mock<IReadingListRepository>();
+            _mockConfiguration = new Mock<IConfiguration>();
+            _userService = new UserService(_mockUserRepository.Object, _mockPasswordHasherService.Object, _mockConfiguration.Object, _mockReadingListRepository.Object);
         }
 
         [TestMethod]
