@@ -32,7 +32,7 @@ namespace BookClubApp.DAL.Repos
             catch (Exception ex)
             {
                 // Log exception
-                throw new ApplicationException("An error occurred while retrieving the reading list.", ex);
+                throw new Exception("An error occurred while retrieving the reading list.", ex);
             }
         }
 
