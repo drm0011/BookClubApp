@@ -50,7 +50,6 @@ namespace BookClubApp.Services
             }
             catch (Exception ex)
             {
-                // Log exception (not shown here)
                 throw new ApplicationException("An error occurred while adding the book to the reading list.", ex);
             }
         }
