@@ -50,6 +50,26 @@ namespace BookClubApp.Controllers
             }
         }
 
+        [HttpGet("readinglist/other")]
+        public async Task<ActionResult<IEnumerable<ReadingListItem>>> GetOtherUserReadingListItems([FromQuery] int userId)
+        {
+            try
+            {
+                var items = await _readingListService.GetReadingListItems(userId);
+                if (items == null || !items.Any())
+                {
+                    return NotFound("Reading list not found for the specified user.");
+                }
+                return Ok(items);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An unexpected error occurred. Please try again later.");
+            }
+        }
+
+
+
         [HttpGet("readinglist/metadata/{userId}")]
         public async Task<ActionResult<ReadingListMetadataDto>> GetReadingListMetadata(int userId)
         {
