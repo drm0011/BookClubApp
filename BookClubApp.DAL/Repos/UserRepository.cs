@@ -40,6 +40,12 @@ namespace BookClubApp.DAL.Repos
             var userEntities = await _context.Users.ToListAsync();
             return userEntities.Select(user => Core.Models.User.Create(user.Id, user.Username, user.Email, user.PasswordHash));
         }
+
+        public async Task<bool> UserExistsByEmail(string email)
+        {
+            return await _context.Users.AnyAsync(u => u.Email == email);
+        }
+
         public async Task<Core.Models.User> GetUserByUsername(string username)
         {
             var userEntity = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);

@@ -90,7 +90,5 @@ namespace BookClubApp.Tests.Controllers
             var okResult = result.Result as OkObjectResult;
             Assert.IsInstanceOfType(okResult.Value, typeof(ReadingListMetadataDto));
         }
-
-        
     }
 }

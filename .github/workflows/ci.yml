@@ -2,13 +2,13 @@ name: CI Build and Test
 
 on:
   push:
-    branches: [ "master" ]  
+    branches: [ "master" ]
   pull_request:
     branches: [ "master" ]  
 
 jobs:
   build-and-test:
-    runs-on: ubuntu-latest 
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout Code
@@ -17,7 +17,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: '8.0'  
+        dotnet-version: '8.0'
 
     - name: Build Project
       run: dotnet build --configuration Release

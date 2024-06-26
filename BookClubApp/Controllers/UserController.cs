@@ -42,7 +42,7 @@ namespace BookClubApp.Controllers
                 }
                 else
                 {
-                    return BadRequest(new { message = "Registration failed. Username may already be taken." });
+                    return BadRequest(new { message = "Registration failed. Username or E-mail may already be taken." });
                 }
             }
             catch (Exception ex)

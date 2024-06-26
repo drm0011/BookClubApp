@@ -50,7 +50,8 @@ namespace BookClubApp.Tests
             user.SetPassword("validpassword", _passwordHasherServiceMock.Object);
 
             _userRepositoryMock.Setup(repo => repo.GetUserByUsername("validuser")).ReturnsAsync(user);
-            _passwordHasherServiceMock.Setup(hasher => hasher.VerifyPassword(user.PasswordHash, "validpassword")).Returns(PasswordVerificationResult.Success);
+            _passwordHasherServiceMock.Setup(hasher => hasher.VerifyPassword(user.PasswordHash, "validpassword"))
+                .Returns(PasswordVerificationResult.Success);
 
             var token = await _userService.AuthenticateUser(new UserLoginModel { Username = "validuser", Password = "validpassword" });
 

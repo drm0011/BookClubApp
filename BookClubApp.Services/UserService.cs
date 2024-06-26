@@ -41,14 +41,14 @@ namespace BookClubApp.Services
             if (string.IsNullOrEmpty(userModel.Password)) throw new ArgumentException("Password cannot be empty");
             if (userModel.Password.Length < 3) throw new ArgumentException("Password must be at least 3 characters long");
 
-            if (await _userRepository.UserExists(userModel.Username))
+            if (await _userRepository.UserExists(userModel.Username) || (await _userRepository.UserExistsByEmail(userModel.Email)))
             {
                 return false;
             }
 
-            var hashedPassword = _passwordHasherService.HashPassword(userModel.Password);
+            //var hashedPassword = _passwordHasherService.HashPassword(userModel.Password);
             var newUser = new User(userModel.Username, userModel.Email);
-            newUser.SetPassword(hashedPassword, _passwordHasherService);
+            newUser.SetPassword(userModel.Password, _passwordHasherService);
 
             await _userRepository.AddUser(newUser);
             return true;
