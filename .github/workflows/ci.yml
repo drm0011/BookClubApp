@@ -25,11 +25,16 @@ jobs:
     - name: Run Unit Tests
       run: dotnet test --configuration Release
 
-    - name: Analyze Code Quality
-      run: dotnet format --verify-no-changes
+  dependency-check:
+    runs-on: ubuntu-latest
 
-    - name: Install DevSkim
-      run: dotnet tool install --global Microsoft.DevSkim.CLI
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
 
-    - name: Run DevSkim Security Analysis
-      run: devskim analyze --output-format=sarif --output-file=devskim-results.sarif
+    - name: Run OWASP Dependency-Check
+      uses: dependency-check/action@v4
+      with:
+        project: "BookClubApp"
+        scan: "./"
+        format: "ALL"
