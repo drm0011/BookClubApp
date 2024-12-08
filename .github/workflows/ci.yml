@@ -33,8 +33,9 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Run OWASP Dependency-Check
-      uses: dependency-check/action@v4
+      uses: addicted-to-security/dependency-check-action@v2.0.1
       with:
-        project: "BookClubApp"
-        scan: "./"
         format: "ALL"
+        output-directory: "./dependency-check-report"
+        scan-path: "./"
+
