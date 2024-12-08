@@ -1,32 +1,35 @@
-name: CI Build, Test, and Dependency Analysis
+name: CI Build, Test, and Security Analysis
 
 on:
   push:
-    branches:
-      - master
+    branches: [ "master" ]
   pull_request:
-    branches:
-      - master
+    branches: [ "master" ]  
 
 jobs:
-  build-and-analyze:
+  build-and-test:
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout Code
       uses: actions/checkout@v4
 
-    - name: Install OWASP Dependency-Check
-      run: |
-        curl -LO https://github.com/jeremylong/DependencyCheck/releases/download/v8.3.1/dependency-check-8.3.1-release.zip
-        unzip dependency-check-8.3.1-release.zip -d dependency-check
-
-    - name: Run Dependency-Check
-      run: |
-        ./dependency-check/bin/dependency-check.sh --project MyApp --scan ./ --format ALL --out ./dependency-check-report
-
-    - name: Upload Dependency-Check Report
-      uses: actions/upload-artifact@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
       with:
-        name: dependency-check-report
-        path: ./dependency-check-report
+        dotnet-version: '8.0'
+
+    - name: Build Project
+      run: dotnet build --configuration Release
+
+    - name: Run Unit Tests
+      run: dotnet test --configuration Release
+
+    - name: Analyze Code Quality
+      run: dotnet format --verify-no-changes
+
+    - name: Install DevSkim
+      run: dotnet tool install --global Microsoft.DevSkim.CLI
+
+    - name: Run DevSkim Security Analysis
+      run: devskim analyze --output-format=sarif --output-file=devskim-results.sarif
