@@ -1,4 +1,4 @@
-name: CI Build, Test, and CodeQL Analysis
+name: CI Build, Test, and Security Analysis
 
 on:
   push:
@@ -25,20 +25,11 @@ jobs:
     - name: Run Unit Tests
       run: dotnet test --configuration Release
 
-  codeql-analysis:
-    needs: build-and-test
-    runs-on: ubuntu-latest
+    - name: Analyze Code Quality
+      run: dotnet format --verify-no-changes
 
-    steps:
-    - name: Checkout Code
-      uses: actions/checkout@v4
+    - name: Install DevSkim
+      run: dotnet tool install --global Microsoft.DevSkim.CLI
 
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v2
-      with:
-        languages: dotnet
-
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v2
-      with:
-        category: "/security"
+    - name: Run DevSkim Security Analysis
+      run: devskim analyze --output-format=sarif --output-file=devskim-results.sarif
