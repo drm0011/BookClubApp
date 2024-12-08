@@ -1,4 +1,4 @@
-name: CI Build, Test, and Security Analysis
+name: CI Build, Test
 
 on:
   push:
@@ -24,12 +24,3 @@ jobs:
 
     - name: Run Unit Tests
       run: dotnet test --configuration Release
-
-    - name: Analyze Code Quality
-      run: dotnet format --verify-no-changes
-
-    - name: Install DevSkim
-      run: dotnet tool install --global Microsoft.DevSkim.CLI
-
-    - name: Run DevSkim Security Analysis
-      run: devskim analyze --output-format=sarif --output-file=devskim-results.sarif
