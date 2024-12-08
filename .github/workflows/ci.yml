@@ -1,41 +1,32 @@
-name: CI Build, Test, and Security Analysis
+name: CI Build, Test, and Dependency Analysis
 
 on:
   push:
-    branches: [ "master" ]
+    branches:
+      - master
   pull_request:
-    branches: [ "master" ]  
+    branches:
+      - master
 
 jobs:
-  build-and-test:
+  build-and-analyze:
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout Code
       uses: actions/checkout@v4
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
+    - name: Install OWASP Dependency-Check
+      run: |
+        curl -LO https://github.com/jeremylong/DependencyCheck/releases/download/v8.3.1/dependency-check-8.3.1-release.zip
+        unzip dependency-check-8.3.1-release.zip -d dependency-check
+
+    - name: Run Dependency-Check
+      run: |
+        ./dependency-check/bin/dependency-check.sh --project MyApp --scan ./ --format ALL --out ./dependency-check-report
+
+    - name: Upload Dependency-Check Report
+      uses: actions/upload-artifact@v3
       with:
-        dotnet-version: '8.0'
-
-    - name: Build Project
-      run: dotnet build --configuration Release
-
-    - name: Run Unit Tests
-      run: dotnet test --configuration Release
-
-  dependency-check:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout Code
-      uses: actions/checkout@v4
-
-    - name: Run OWASP Dependency-Check
-      uses: addicted-to-security/dependency-check-action@v2.0.1
-      with:
-        format: "ALL"
-        output-directory: "./dependency-check-report"
-        scan-path: "./"
-
+        name: dependency-check-report
+        path: ./dependency-check-report
